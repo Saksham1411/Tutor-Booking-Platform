@@ -23,6 +23,9 @@ const TutorSchema = new mongoose.Schema({
     sessions: {
         type: [String],
     },
+    photo:{
+        type:String,
+    }
 },{timestamps:true});
 
 const Tutor =  mongoose.model("Tutor", TutorSchema);

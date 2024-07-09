@@ -3,11 +3,16 @@ const tutorRoutes = express.Router();
 
 const tutorController = require("../controllers/tutorController");
 const tutorAuthController = require("../controllers/tutorAuthController");
+const multer = require("multer");
+
+const storage = multer.memoryStorage();
+
+const photosMiddleware = multer({ storage });
 
 tutorRoutes.use(tutorAuthController.protect);
 tutorRoutes.get("/me", tutorController.getMe);
 tutorRoutes.patch(
-    "/updateMe",
+    "/updateMe",photosMiddleware.single('photo'),
     tutorController.updateMe
   );
 
