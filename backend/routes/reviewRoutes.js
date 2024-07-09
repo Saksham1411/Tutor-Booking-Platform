@@ -3,12 +3,9 @@ const reviewRoutes = express.Router();
 
 const { getAllReviewOfTutor, createReview, getReview, updateReview, deleteReview } = require('../controllers/reviewController');
 
-reviewRoutes.route('/reviews/:sessionId').post(createReview).get(getReview);
-reviewRoutes.patch('/reviews/updateReview/:reviewId', updateReview);
-reviewRoutes.delete('/reviews/deleteReview/:reviewId', deleteReview);
-reviewRoutes.get('/reviews/tutorReview/:tutorId', getAllReviewOfTutor)
-
-
-
+reviewRoutes.route('/:sessionId').post(createReview).get(getReview);
+reviewRoutes.patch('/updateReview/:reviewId', updateReview);
+reviewRoutes.delete('/deleteReview/:reviewId', deleteReview);
+reviewRoutes.get('/tutorReview/:tutorId', getAllReviewOfTutor)
 
 module.exports = reviewRoutes;

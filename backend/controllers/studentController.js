@@ -102,7 +102,7 @@ const updateMe = catchAsync(async (req, res, next) => {
     "email",
   );
   
-  const updatedstudent = await Customer.findByIdAndUpdate(
+  const updatedStudent = await Student.findByIdAndUpdate(
     req.student.id,
     filteredBody,
     {
