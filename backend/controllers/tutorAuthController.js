@@ -1,5 +1,6 @@
 const Tutor = require('../models/tutorModel');
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 const { StatusCodes } = require('http-status-codes');
 
 const registerTutor = async (req, res) => {
@@ -10,7 +11,7 @@ const registerTutor = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //adding data to db
-    const tutor = await Tutor({ email, password: hashedPassword, name, phoneNumber });
+    const tutor = await Tutor.create({ email, password: hashedPassword, name, phoneNumber });
 
     //creating auth token
     const token = jwt.sign({ id: tutor._id, name, email }, process.env.JWT_SECRET);
@@ -20,8 +21,8 @@ const registerTutor = async (req, res) => {
 const loginTutor = async (req, res) => {
     const { email, password } = req.body;
 
-    const tutor = await Tutor.find({ email });
-    if (!tutor) return res.send(StatusCodes.UNAUTHORIZED).send("tutor not find");
+    const tutor = await Tutor.findOne({ email });
+    if (!tutor) return res.status(StatusCodes.UNAUTHORIZED).send("tutor not find");
 
     //Matching tutor
     const isMatched = bcrypt.compareSync(password, tutor.password);

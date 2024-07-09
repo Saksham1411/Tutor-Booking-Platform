@@ -3,6 +3,8 @@ const app = express();
 
 const studentRouter = require("./routes/studentRoutes");
 const studentAuthRouter = require("./routes/studentAuthRoutes");
+const tutorAuthRouter = require("./routes/tutorAuthRoutes");
+const reviewRouter = require("./routes/reviewRoutes");
 // const tutorRouter = require("./routes/tutorRoutes");
 
 const AppError = require("./utils/appError");
@@ -54,7 +56,9 @@ app.use(express.json({ limit: "10kb" }));
 
 ////Routes middlewares
  app.use("/api/v1/studentsAuth", studentAuthRouter);
+ app.use("/api/v1/tutorAuth", tutorAuthRouter);
  app.use("/api/v1/students", studentRouter);
+ app.use("/api/v1/reviews", reviewRouter);
 // app.use("/api/v1/tutors", tutorRouter);
 
 

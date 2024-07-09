@@ -11,7 +11,7 @@ const registerStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //adding data to db
-    const student = await Student({ email, password: hashedPassword, name, phoneNumber, address });
+    const student = await Student.create({ email, password: hashedPassword, name, phoneNumber, address });
 
     //creating auth token
     const token = jwt.sign({ id: student._id, name, email }, process.env.JWT_SECRET);
@@ -20,14 +20,13 @@ const registerStudent = async (req, res) => {
 }
 const loginStudent = async (req, res) => {
     const { email, password } = req.body;
-
-    const student = await Student.find({ email });
-    if (!student) return res.send(StatusCodes.UNAUTHORIZED).send("Student not find");
-
+    const student = await Student.findOne({ email });
+    if (!student) return res.status(StatusCodes.UNAUTHORIZED).send("Student not find");
+    
     //matching password
     const isMatched = bcrypt.compareSync(password, student.password);
     if (!isMatched) return res.status(StatusCodes.UNAUTHORIZED).send('Password not match');
-
+    
     //creating jwt token
     const token = jwt.sign({ id: student._id, name:student.name, email }, process.env.JWT_SECRET);
 
