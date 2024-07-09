@@ -34,7 +34,7 @@ const loginTutor = async (req, res) => {
 }
 
 //for remain logged in 
-const profile = async (req, res) => {
+const protect = async (req, res) => {
     const { token } = req.cookies;
     if (!token) return res.status(500).send('token not find');
 
@@ -49,4 +49,4 @@ const logout = async (req, res) => {
     res.clearCookie("token").status(200).send('logout');
 }
 
-module.exports = { registerTutor, loginTutor, logout, profile }
+module.exports = { registerTutor, loginTutor, logout, protect }

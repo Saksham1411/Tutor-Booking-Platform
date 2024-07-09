@@ -5,11 +5,15 @@ const reviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
     },
-    TutorId: {
+    tutorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tutor'
     },
-    Comment: {
+    sessionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tutor'
+    },
+    comment: {
         type: String,
         required: [true, 'Please leave a comment...'],
         trim: true

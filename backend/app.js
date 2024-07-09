@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 
+const studentRouter = require("./routes/studentRoutes");
 const studentAuthRouter = require("./routes/studentAuthRoutes");
 // const tutorRouter = require("./routes/tutorRoutes");
+
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
@@ -51,7 +53,8 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(express.json({ limit: "10kb" }));
 
 ////Routes middlewares
-// app.use("/api/v1/students", studentRouter);
+ app.use("/api/v1/studentsAuth", studentAuthRouter);
+ app.use("/api/v1/students", studentRouter);
 // app.use("/api/v1/tutors", tutorRouter);
 
 
