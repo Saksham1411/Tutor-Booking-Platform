@@ -24,6 +24,9 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide your address"],
     },
+    photo:{
+        type:String,
+    }
 },{timestamps:true})
 
 const Student = mongoose.model("Student",studentSchema);
