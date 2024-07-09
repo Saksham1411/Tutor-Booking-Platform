@@ -6,7 +6,7 @@ const studentAuthRouter = require("./routes/studentAuthRoutes");
 const tutorAuthRouter = require("./routes/tutorAuthRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const sessionRouter = require("./routes/sessionRoutes");
-// const tutorRouter = require("./routes/tutorRoutes");
+const tutorRouter = require("./routes/tutorRoutes");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -59,8 +59,9 @@ app.use(express.json({ limit: "10kb" }));
  app.use("/api/v1/studentsAuth", studentAuthRouter);
  app.use("/api/v1/tutorAuth", tutorAuthRouter);
  app.use("/api/v1/students", studentRouter);
+ app.use("/api/v1/tutors", tutorRouter);
  app.use("/api/v1/reviews", reviewRouter);
-// app.use("/api/v1/tutors", tutorRouter);
+ app.use("/api/v1/sessions", sessionRouter);
 
 
 //global errors handler

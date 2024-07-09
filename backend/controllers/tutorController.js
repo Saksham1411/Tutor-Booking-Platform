@@ -120,4 +120,4 @@ const deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { getMe,updateMe,getMySessions,deleteMe,uploadTutorPhoto,resizeTutorPhoto }
+module.exports = { getMe,updateMe,getMySessions,deleteMe }

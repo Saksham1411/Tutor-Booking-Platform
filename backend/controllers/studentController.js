@@ -103,7 +103,7 @@ const updateMe = catchAsync(async (req, res, next) => {
   );
   
   const updatedStudent = await Student.findByIdAndUpdate(
-    req.student.id,
+    req.student._id,
     filteredBody,
     {
       new: true, //returns new object
