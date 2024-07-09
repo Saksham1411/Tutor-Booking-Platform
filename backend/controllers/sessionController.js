@@ -2,17 +2,15 @@ const Student = require("./../models/studentModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const APIFeatures = require("./../utils/apiFeatures");
-const Booking = require("../models/bookingModel");
-const Review = require("../models/reviewModel");
-const Tutor = require("./../models/tutorModel");
+const Session = require("./../models/sessionModel");
 const path = require("path");
 
 const getAllSessions = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Session.find(), req.query)
-    .filter()
-    .sorting()
-    .limiting()
-    .paginating();
+  const features = new APIFeatures(Session.find(), req.query);
+    // .filter()
+    // .sorting()
+    // .limiting()
+    // .paginating();
   const sessions = await features.query;
   res.status(200).json({
     status: "success",
@@ -23,7 +21,7 @@ const getAllSessions = catchAsync(async (req, res, next) => {
 
 const createSession = catchAsync(async (req, res, next) => {
   const { topics, subject, duration, price } = req.body;
-  const tutorId = req.tutor._id;
+  const tutorId = req.tutor.id;
 
   if (!tutorId)
     return next(new AppError("You can't create this session! ", 403));

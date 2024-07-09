@@ -34,7 +34,7 @@ const loginStudent = async (req, res) => {
 }
 
 //for remaining logged in 
-const protect = async (req, res) => {
+const protect = async (req, res,next) => {
     const { token } = req.cookies;
     if (!token) return res.status(500).send('token not find');
 
@@ -42,7 +42,8 @@ const protect = async (req, res) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
     const student = await Student.findOne({ _id: payload.id });
-    res.status(StatusCodes.OK).json(student);
+    req.student=student;
+    next();
 }
 
 const logout = async (req, res) => {
