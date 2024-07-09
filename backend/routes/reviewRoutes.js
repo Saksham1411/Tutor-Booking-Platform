@@ -1,4 +1,4 @@
 const express = require("express");
-const studentRoutes = express.Router();
+const reviewRoutes = express.Router();
 
 module.exports = reviewRoutes;

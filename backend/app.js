@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const studentRouter = require("./routes/studentRoutes");
+const studentAuthRouter = require("./routes/studentAuthRoutes");
 // const tutorRouter = require("./routes/tutorRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
