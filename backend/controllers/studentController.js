@@ -57,13 +57,13 @@ const imageUploader = async (image)=>{
 //   // next();
 // };
 
-// const getMe = catchAsync(async (req, res) => {
-//   const student = await Student.findById(req.student._id);
-//   res.status(200).json({
-//     status: "success",
-//     student,
-//   });
-// });
+const getMe = catchAsync(async (req, res) => {
+  const student = await Student.findById(req.student._id);
+  res.status(200).json({
+    status: "success",
+    student,
+  });
+});
 
 // exports.sendImage = (req, res) => {
 //   res.sendFile(
@@ -160,4 +160,4 @@ const deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { updateMe,getMySessions,deleteMe }
+module.exports = { getMe,updateMe,getMySessions,deleteMe,getMyReviews,getMySessions }

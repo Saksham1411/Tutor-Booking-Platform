@@ -64,6 +64,7 @@ app.use(express.json({ limit: "10kb" }));
  app.use("/api/v1/sessions", sessionRouter);
 
 
+
 //global errors handler
 app.use(globalErrorHandler);
 

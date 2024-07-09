@@ -8,13 +8,14 @@ class APIFeatures {
     convertToNumbers(obj) {
       for (let key in obj) {
         if (typeof obj[key] === "object") {
-          this.convertToNumbers(obj[key]); // Recursively convert nested objects
+          this.convertToNumbers(obj[key]); 
         } else if (typeof obj[key] === "string" && !isNaN(obj[key])) {
           obj[key] = parseFloat(obj[key]);
         }
       }
     }
     filter() {
+
       //1)Simple filtering
       const queryObj = { ...this.queryString };
       const excludedFields = ["sortby", "fields", "services"];
@@ -34,7 +35,7 @@ class APIFeatures {
   
       if (this.aggregate) {
         this.convertToNumbers(queryStr);
-        this.query = this.query.match(queryStr); // same way with sort and project
+        this.query = this.query.match(queryStr); 
       } else {
         this.query = this.query.find(queryStr);
       }

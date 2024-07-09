@@ -9,17 +9,13 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 
 const photosMiddleware = multer({ storage });
+
 studentRoutes.use(studentAuthController.protect);   
 studentRoutes.use("/reviews", reviewRouter);
 
 studentRoutes.get("/me", studentController.getMe);
-// studentRoutes.patch(
-//     "/updateMe",
-//     studentController.uploadStudentPhoto,
-//     studentController.resizeStudentPhoto,
-//     studentController.updateMe
-//   );
-studentRoutes.get("/updateMe",photosMiddleware.single('photo'),studentController.updateMe);
+
+studentRoutes.get("/updateMe",studentController.updateMe);
 
 studentRoutes.get("/mySessions", studentController.getMySessions);
 
