@@ -23,12 +23,14 @@ const loginStudent = async (req, res) => {
     const student = await Student.find({ email });
     if (!student) return res.send(StatusCodes.UNAUTHORIZED).send("Student not find");
 
+    //matching password
     const isMatched = bcrypt.compareSync(password, student.password);
     if (!isMatched) return res.status(StatusCodes.UNAUTHORIZED).send('Password not match');
 
-    const token = jwt.sign({ id: student._id, name, email }, process.env.JWT_SECRET);
+    //creating jwt token
+    const token = jwt.sign({ id: student._id, name:student.name, email }, process.env.JWT_SECRET);
 
-    return res.cookie("token", token, { sameSite: 'none', secure: true }).status(201).json(student );
+    return res.cookie("token", token, { sameSite: 'none', secure: true }).status(201).json(student);
 }
 
 //for remaining logged in 
@@ -36,9 +38,10 @@ const profile = async (req, res) => {
     const { token } = req.cookies;
     if (!token) return res.status(500).send('token not find');
 
+    //verifying the token
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    const student = await User.findOne({ _id: payload.id });
+    const student = await Student.findOne({ _id: payload.id });
     res.status(StatusCodes.OK).json(student);
 }
 
@@ -48,4 +51,4 @@ const logout = async (req, res) => {
 
 
 
-module.exports = { registerStudent, loginStudent, logout,profile }
+module.exports = { registerStudent, loginStudent, logout, profile }
