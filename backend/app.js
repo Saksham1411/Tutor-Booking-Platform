@@ -8,6 +8,7 @@ const reviewRouter = require("./routes/reviewRoutes");
 const sessionRouter = require("./routes/sessionRoutes");
 const tutorRouter = require("./routes/tutorRoutes");
 const bookingController=require("./controllers/bookingController");
+const bookingRouter=require("./routes/bookingRoutes");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -70,6 +71,7 @@ app.post(
  app.use("/api/v1/tutors", tutorRouter);
  app.use("/api/v1/reviews", reviewRouter);
  app.use("/api/v1/sessions", sessionRouter);
+ app.use("/api/v1/bookings", bookingRouter);
 
 
 

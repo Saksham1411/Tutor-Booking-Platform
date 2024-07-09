@@ -1,6 +1,6 @@
-const Student = require("./../models/maidModel");
+const Student = require("./../models/studentModel");
 const Tutor = require("./../models/tutorModel");
-const Session = require("./../models/customerModel");
+const Session = require("./../models/sessionModel");
 const Booking = require("./../models/bookingModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
@@ -18,7 +18,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   //creating the checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    success_url: `${req.protocol}://${req.get("host")}`, //of front-end
+    success_url: `${req.protocol}://${req.get("host")}/`, //of front-end
     cancel_url: `${req.protocol}://${req.get("host")}/maidDetails/${
       req.params.maidId
     }/`, //of front end
