@@ -6,6 +6,11 @@ const TutorSchema = new mongoose.Schema({
         required: [true, "Please tell us your name"],
         trim: true,
     },
+       isTutor:{
+        type:boolean,
+        required:true,
+        default:true,
+    },
     email: {
         type: String,
         required: [true, "Please provide your email"],
