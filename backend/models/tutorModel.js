@@ -7,7 +7,7 @@ const TutorSchema = new mongoose.Schema({
         trim: true,
     },
        isTutor:{
-        type:boolean,
+        type:Boolean,
         required:true,
         default:true,
     },
