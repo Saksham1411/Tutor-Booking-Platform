@@ -24,6 +24,13 @@ const sessionSchema = new mongoose.Schema({
     price:{
         type:Number,
         required:[true,"Please provide the session cost"]
+    },
+    rating:{
+      type: Number,
+      default: 4.5,
+      min: [1, "Rating must be above 1.0"],
+      max: [5, "Rating must be below 5.0"],
+      set: (val) => Math.round(val * 10) / 10,
     }
 })
 
