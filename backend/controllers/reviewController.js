@@ -49,7 +49,7 @@ const createReview = catchAsync(async (req, res, next) => {
 const getReview = catchAsync(async (req, res, next) => {
   const reviewId = req.params.reviewId;
   const review = await Review.findById(reviewId).populate({
-    path: "student",
+    path: "studentId",
     select: "name photo _id",
   });
   res.status(201).json({
@@ -62,7 +62,7 @@ const updateReview = catchAsync(async (req, res, next) => {
   const reviewId = req.params.reviewId;
   const previousReview = await Review.findById(reviewId);
 
-  if (previousReview.tutorId != req.tutor._id)
+  if (previousReview.studentId != req.student.id)
     return next(
       new AppError("You can not update or delete this review! ", 403)
     );
@@ -70,7 +70,7 @@ const updateReview = catchAsync(async (req, res, next) => {
     const newReview=req.body;
   const review = await Review.findByIdAndUpdate(
     reviewId,
-    { newReview },
+    newReview ,
     {
       new: true,
       runValidators: true,
@@ -90,7 +90,7 @@ const deleteReview = catchAsync(async (req, res, next) => {
     const reviewId = req.params.reviewId;
     const previousReview = await Review.findById(reviewId);
   
-    if (previousReview.tutorId != req.tutor._id)
+    if (previousReview.studentId != req.student._id)
       return next(
         new AppError("You can not update or delete this review! ", 403)
       );

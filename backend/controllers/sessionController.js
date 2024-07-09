@@ -56,8 +56,9 @@ const getSession = catchAsync(async (req, res, next) => {
 const updateSession = catchAsync(async (req, res, next) => {
   const sessionId = req.params.sessionId;
   const previousSession = await Session.findById(sessionId);
-
-  if (previousSession.tutorId != req.tutor._id)
+  
+ 
+  if (previousSession.tutorId != req.tutor.id)
     return next(
       new AppError("You can not update or delete this session! ", 403)
     );
@@ -65,7 +66,7 @@ const updateSession = catchAsync(async (req, res, next) => {
     const newSession=req.body;
   const session = await Session.findByIdAndUpdate(
     sessionId,
-    { newSession },
+    newSession ,
     {
       new: true,
       runValidators: true,

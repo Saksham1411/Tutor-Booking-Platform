@@ -52,14 +52,16 @@ reviewSchema.statics.calAverageRatings = async function (sessionId) {
     }
   };
   
-  reviewSchema.post("save", function () {
-    this.constructor.calAverageRatings(this.sessionId);
+//both findbyidAnd ==findOneAnd in back
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+    this.r = await this.findOne().clone(); //to get the document from query as we are completing findOne
+    //clone is used because mongoose v6 do not allow same query twice.
+    next();
+  });
+  reviewSchema.post(/^findOneAnd/, async function () {
+    await this.r.constructor.calAverageRatings(this.r.sessionId);
   });
   
-  //both findbyidAnd ==findOneAnd in back
 
-  reviewSchema.post(/^findOneAnd/, async function () {
-    await this.r.constructor.calAverageRatings(this.r.maid);
-  });
 const Review = mongoose.model("Review", reviewSchema);
 module.exports = Review;
