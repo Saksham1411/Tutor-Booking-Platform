@@ -1,58 +1,108 @@
-const Review = require('../models/reviewModel');
-const { StatusCodes } = require('http-status-codes');
-const jwt = require('jsonwebtoken');
-const Session = require('../models/sessionModel');
+const Student = require("./../models/studentModel");
+const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
+const APIFeatures = require("./../utils/apiFeatures");
+const Review = require("./../models/reviewModel");
+const Booking =require("./../models/bookingModel");
+const path = require("path");
 
-const getAllReviewOfTutor = async (req, res) => {
-    const { tutorId } = req.params;
+const getAllReviews = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(Review.find(), req.query);
+    // .filter()
+    // .sorting()
+    // .limiting()
+    // .paginating();
+  const reviews = await features.query;
+  res.status(200).json({
+    status: "success",
+    results: reviews.length,
+    data: { reviews },
+  });
+});
 
-    const reviews = await Review.find({ tutorId });
-
-    res.status(StatusCodes.OK).send(reviews);
-}
-
-const createReview = async (req, res) => {
+const createReview = catchAsync(async (req, res, next) => {
     const { comment, rating } = req.body;
     const { sessionId } = req.params;
-    const { token } = req.cookies;
 
-    if (!token) return res.status(StatusCodes.UNAUTHORIZED).send("User not logged in ");
-    //verify jwt token to get id of logged in user
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const booking = await Booking.findOne({
+        sessionId: req.params.sessionId,
+        studentId: req.student._id,
+      });
+      if (!booking)
+        return next(new AppError("You can't create this review! ", 403));
 
-    //for geting the tutorId who created the session
-    const session = await Session.find({ _id: sessionId });
+      req.body.sessionId = req.params.sessionId;
+      req.body.studentId = req.student._id;
+    
+      const newReview = await Review.create({
+        ...req.body,
+      });
+    
+      res.status(200).json({
+        status: "success",
+        data: {
+          Review: newReview,
+        },
+      });
+});
 
-    //creating review
-    const review = await Review.create({ studentId: payload.id, sessionId, tutorId: session.tutorId, comment, rating });
+const getReview = catchAsync(async (req, res, next) => {
+  const reviewId = req.params.reviewId;
+  const review = await Review.findById(reviewId).populate({
+    path: "student",
+    select: "name photo _id",
+  });
+  res.status(201).json({
+    status: "success",
+    data: { review: review },
+  });
+});
 
-    res.status(StatusCodes.CREATED).send("Review added successfully ");
-}
+const updateReview = catchAsync(async (req, res, next) => {
+  const reviewId = req.params.reviewId;
+  const previousReview = await Review.findById(reviewId);
 
-const getReview = async (req, res) => {
-    const { sessionId } = req.params;
+  if (previousReview.tutorId != req.tutor._id)
+    return next(
+      new AppError("You can not update or delete this review! ", 403)
+    );
 
-    const reviews = (await Review.find({ sessionId })).populate('studentId');
+    const newReview=req.body;
+  const review = await Review.findByIdAndUpdate(
+    reviewId,
+    { newReview },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-    res.status(StatusCodes.OK).send(reviews);
-}
+  res.status(200).json({
+    status: "success",
+    data: {
+      review: review,
+    },
+  });
+});
 
-const updateReview = async (req, res) => {
-    const { comment, rating } = req.body;
-    const { reviewId } = req.params;
 
-    const review = await Review.findByIdAndUpdate({ _id: reviewId }, { comment, rating });
+const deleteReview = catchAsync(async (req, res, next) => {
+    const reviewId = req.params.reviewId;
+    const previousReview = await Review.findById(reviewId);
+  
+    if (previousReview.tutorId != req.tutor._id)
+      return next(
+        new AppError("You can not update or delete this review! ", 403)
+      );
+  
+    const review = await Review.findByIdAndDelete(
+      reviewId,
+    );
+  
+    res.status(200).json({
+      status: "success",
+    });
+  });
 
-    res.status(StatusCodes.OK).send("updated succesfully");
-
-}
-
-const deleteReview = async (req, res) => {
-    const { reviewId } = req.params;
-
-    const review = await Review.findByIdAndDelete({ _id: reviewId });
-
-    res.status(StatusCodes.OK).send("Deleted succesfully");
-}
-
-module.exports = { getAllReviewOfTutor, createReview, getReview, updateReview, deleteReview }; 
+  module.exports = { getAllReviews, createReview,getReview, updateReview, deleteReview };
+  
