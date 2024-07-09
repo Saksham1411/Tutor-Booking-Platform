@@ -1,5 +1,5 @@
 const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "config/.env") });
+require("dotenv").config();
 require('express-async-errors');
 const app = require("./app");
 const mongoose = require("mongoose");
