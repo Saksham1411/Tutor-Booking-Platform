@@ -1,4 +1,4 @@
-const Review = require('../models/reviewsModel');
+const Review = require('../models/reviewModel');
 const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const Session = require('../models/sessionModel');

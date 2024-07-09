@@ -5,6 +5,7 @@ const studentRouter = require("./routes/studentRoutes");
 const studentAuthRouter = require("./routes/studentAuthRoutes");
 const tutorAuthRouter = require("./routes/tutorAuthRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
+const sessionRouter = require("./routes/sessionRoutes");
 // const tutorRouter = require("./routes/tutorRoutes");
 
 const AppError = require("./utils/appError");

@@ -2,7 +2,7 @@ const express = require("express");
 const sessionRouter = express.Router({ mergeParams: true });
 const sessionController = require("./../controllers/sessionController");
 
-sessionRouter.get("/",reviewController.getAllSessions);
+sessionRouter.get("/",sessionController.getAllSessions);
 
 sessionRouter.post("/createSession/",sessionController.createSession);
 sessionRouter
