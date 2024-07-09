@@ -96,8 +96,8 @@ const getMySessions = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      CurrentBookings: currentBookings,
-      PastBookings: pastBookings,
+      CurrentSessions: currentSessions,
+      PastSessions: pastSessions,
       upcomingSessions: upcomingSessions
     },
   });

@@ -66,7 +66,7 @@ app.post(
 
 ////Routes middlewares
  app.use("/api/v1/studentsAuth", studentAuthRouter);
- app.use("/api/v1/tutorAuth", tutorAuthRouter);
+ app.use("/api/v1/tutorsAuth", tutorAuthRouter);
  app.use("/api/v1/students", studentRouter);
  app.use("/api/v1/tutors", tutorRouter);
  app.use("/api/v1/reviews", reviewRouter);

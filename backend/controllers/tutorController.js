@@ -4,6 +4,7 @@ const AppError = require("./../utils/appError");
 const Booking = require("../models/bookingModel");
 const Review = require("../models/reviewModel");
 const Tutor = require("./../models/tutorModel");
+const Session =require("./../models/sessionModel");
 const path = require("path");
 
 const multer = require("multer");
@@ -70,21 +71,21 @@ exports.sendImage = (req, res) => {
 
 
 //// ---- Need to test dates ----
-const getMySessions = catchAsync(async (req, res, next) => {
-  const currentSessions = await Booking.find({
+const getMyBookings = catchAsync(async (req, res, next) => {
+  const currentBookings = await Booking.find({
     tutorId: req.tutor._id,
     endingDate: { $gt: new Date(Date.now()) },
   })
     .populate({ path: "studentId", select: "name photo _id" })
     .populate({ path: "sessionId", select: "class subject topics" });
 
-  const pastSessions = await Booking.find({
+  const pastBookings = await Booking.find({
     tutor: req.tutor._id,
     endingDate: { $lt: new Date(Date.now())},
   }) .populate({ path: "studentId", select: "name photo _id" })
   .populate({ path: "sessionId", select: "class subject topics" });
 
-  const upcomingSessions = await Booking.find({
+  const upcomingBookings = await Booking.find({
     tutor: req.tutor._id,
     startingDate: { $gt: new Date(Date.now())},
   }) .populate({ path: "studentId", select: "name photo _id" })
@@ -95,7 +96,19 @@ const getMySessions = catchAsync(async (req, res, next) => {
     data: {
       CurrentBookings: currentBookings,
       PastBookings: pastBookings,
-      upcomingSessions: upcomingSessions
+      upcomingSessions: upcomingBookings
+    },
+  });
+});
+
+const getMySessions=catchAsync(async (req, res, next) => {
+
+  const sessions=await Session.find({tutorId:req.tutor.id});
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      sessions:sessions
     },
   });
 });
@@ -146,4 +159,4 @@ const deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { getMe,updateMe,getMySessions,deleteMe }
+module.exports = { getMe,updateMe,getMyBookings,getMySessions,deleteMe }

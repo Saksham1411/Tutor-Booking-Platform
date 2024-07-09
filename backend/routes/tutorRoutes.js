@@ -16,6 +16,7 @@ tutorRoutes.patch(
     tutorController.updateMe
   );
 
+tutorRoutes.get("/myBookings", tutorController.getMyBookings);
 tutorRoutes.get("/mySessions", tutorController.getMySessions);
 
 tutorRoutes.delete("/deleteMe", tutorController.deleteMe);
