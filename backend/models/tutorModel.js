@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const studentSchema = new mongoose.Schema({
+const TutorSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please tell us your name"],
@@ -12,19 +12,18 @@ const studentSchema = new mongoose.Schema({
         unique: [true, "There is already an account with this email"],
         lowercase: true,
     },
-    password:{
-        type:String,
+    password: {
+        type: String,
         required: [true, "Please provide a password"],
     },
     phoneNumber: {
         type: Number,
         required: [true, "Please provide your mobile number"],
     },
-    address: {
-        type: String,
-        required: [true, "Please provide your address"],
+    sessions: {
+        type: [String],
     },
-},{timestamps:true})
+},{timestamps:true});
 
-const Student = mongoose.model("Student",studentSchema);
-module.exports = Student;
+const Tutor =  mongoose.model("Tutor", TutorSchema);
+module.exports = Tutor;
