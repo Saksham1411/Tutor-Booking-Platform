@@ -11,8 +11,8 @@ studentRoutes.use("/reviews", reviewRouter);
 studentRoutes.get("/me", studentController.getMe);
 studentRoutes.patch(
     "/updateMe",
-    studentController.uploadstudentPhoto,
-    studentController.resizestudentPhoto,
+    studentController.uploadStudentPhoto,
+    studentController.resizeStudentPhoto,
     studentController.updateMe
   );
 

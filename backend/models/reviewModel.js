@@ -9,9 +9,9 @@ const reviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tutor'
     },
-    sessionId:{
+    sessionId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Session'
+        ref: 'Tutor'
     },
     comment: {
         type: String,
