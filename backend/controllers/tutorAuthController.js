@@ -11,17 +11,22 @@ const registerTutor = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //adding data to db
-    const tutor = await Tutor.create({ email, password: hashedPassword, name, phoneNumber });
-
+    let tutor = await Tutor.create({ email, password: hashedPassword, name, phoneNumber });
+    
     //creating auth token
     const token = jwt.sign({ id: tutor._id, name, email }, process.env.JWT_SECRET);
+    tutor={
+        ...tutor,
+        password:undefined,
+        token: JSON.stringify(token),
+    }
 
     return res.cookie("token", token, { sameSite: 'none', secure: true }).status(201).json(tutor);
 }
 const loginTutor = async (req, res) => {
     const { email, password } = req.body;
 
-    const tutor = await Tutor.findOne({ email });
+    let tutor = await Tutor.findOne({ email });
     if (!tutor) return res.status(StatusCodes.UNAUTHORIZED).send("tutor not find");
 
     //Matching tutor
@@ -30,6 +35,11 @@ const loginTutor = async (req, res) => {
 
     //creating jwt token
     const token = jwt.sign({ id: tutor._id, name:tutor.name, email }, process.env.JWT_SECRET);
+    tutor = {
+        ...tutor,
+        password: undefined,
+        token: JSON.stringify(token),
+    }
 
     return res.cookie("token", token, { sameSite: 'none', secure: true }).status(201).json(tutor);
 }
