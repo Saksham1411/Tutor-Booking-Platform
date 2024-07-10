@@ -38,7 +38,10 @@ app.use("/api/v1", limiter);
 app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp());
-app.use(cors({ origin: "*" }));
+app.use(cors({
+  //  origin: "http://localhost:3000"
+   origin: "*"
+   }));
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
