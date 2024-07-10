@@ -23,11 +23,11 @@ const studentSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: Number,
-        required: [true, "Please provide your mobile number"],
+        required: [false, "Please provide your mobile number"],
     },
     address: {
         type: String,
-        required: [true, "Please provide your address"],
+        required: [false, "Please provide your address"],
     },
     photo:{
         type:String,
