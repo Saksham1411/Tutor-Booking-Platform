@@ -7,8 +7,8 @@ const tutorAuthRouter = require("./routes/tutorAuthRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const sessionRouter = require("./routes/sessionRoutes");
 const tutorRouter = require("./routes/tutorRoutes");
-const bookingController=require("./controllers/bookingController");
-const bookingRouter=require("./routes/bookingRoutes");
+const bookingController = require("./controllers/bookingController");
+const bookingRouter = require("./routes/bookingRoutes");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -38,10 +38,7 @@ app.use("/api/v1", limiter);
 app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp());
-app.use(cors({
-  //  origin: "http://localhost:3000"
-   origin: "*"
-   }));
+app.use(cors({ origin: "*", credentials: true }));
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
@@ -68,13 +65,13 @@ app.post(
 );
 
 ////Routes middlewares
- app.use("/api/v1/studentsAuth", studentAuthRouter);
- app.use("/api/v1/tutorsAuth", tutorAuthRouter);
- app.use("/api/v1/students", studentRouter);
- app.use("/api/v1/tutors", tutorRouter);
- app.use("/api/v1/reviews", reviewRouter);
- app.use("/api/v1/sessions", sessionRouter);
- app.use("/api/v1/bookings", bookingRouter);
+app.use("/api/v1/studentsAuth", studentAuthRouter);
+app.use("/api/v1/tutorsAuth", tutorAuthRouter);
+app.use("/api/v1/students", studentRouter);
+app.use("/api/v1/tutors", tutorRouter);
+app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/sessions", sessionRouter);
+app.use("/api/v1/bookings", bookingRouter);
 
 
 
